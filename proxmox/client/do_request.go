@@ -33,6 +33,10 @@ func ToQueryString(v any) string {
 }
 
 func ToJsonBody(b any) *bytes.Buffer {
+	if b == nil {
+		return bytes.NewBuffer(nil)
+	}
+
 	body, err := json.Marshal(b)
 	if err != nil {
 		log.Fatalf("failed to marshal body: %v", err)
@@ -49,6 +53,8 @@ func ParseJsonBody[T any](b []byte) *Response[T] {
 }
 
 func DoRequest[T any](ctx context.Context, c *Client, method string, path string, params any, body any) *T {
+	log.SetPrefix("DoRequest::")
+
 	url := fmt.Sprintf("%s%s", c.apiUrl, path)
 
 	if params != nil {
@@ -73,7 +79,7 @@ func DoRequest[T any](ctx context.Context, c *Client, method string, path string
 
 	defer res.Body.Close()
 
-	log.Default().Printf("%s %s %d", method, url, res.StatusCode)
+	log.Printf("%s %s %d", method, url, res.StatusCode)
 
 	if res.StatusCode == http.StatusUnauthorized {
 		log.Fatalf("Unauthorized")
@@ -84,14 +90,18 @@ func DoRequest[T any](ctx context.Context, c *Client, method string, path string
 		log.Fatalf("failed to read response body: %v", err)
 	}
 
-	log.Default().Printf("RAW => %s", string(raw))
+	log.Printf("RAW => %s", string(raw))
 
 	jsonBody := ParseJsonBody[T](raw)
 
 	if jsonBody.Message != "" {
-		log.Default().Println(jsonBody.Errors)
+		if jsonBody.Errors != nil {
+			log.Printf("errors: %s", jsonBody.Errors)
+		}
 		log.Fatal(jsonBody.Message)
 	}
+
+	log.SetPrefix("")
 
 	return &jsonBody.Data
 
