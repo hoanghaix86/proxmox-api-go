@@ -12,6 +12,8 @@ type QEMU struct {
 
 	Agent *attributes.Agent `json:"agent,omitempty"`
 
+	Bios string `json:"bios,omitempty"`
+
 	Boot    string `json:"boot,omitempty"`    // computed
 	VmGenId string `json:"vmgenid,omitempty"` // computed
 	Meta    string `json:"meta,omitempty"`    // computed

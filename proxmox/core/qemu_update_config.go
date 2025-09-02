@@ -9,11 +9,13 @@ import (
 
 type UpdateConfigQEMURequest struct {
 	Agent string `json:"agent,omitempty"`
+	Bios  string `json:"bios,omitempty"`
 }
 
 func (q *QEMU) ToUpdateConfigQEMURequest() *UpdateConfigQEMURequest {
 	return &UpdateConfigQEMURequest{
 		Agent: q.Agent.ToApi(),
+		Bios:  q.Bios,
 	}
 }
 
@@ -36,5 +38,10 @@ func (q *QEMU) EnableAgent(ctx context.Context, c *client.Client) (*UPID, error)
 
 func (q *QEMU) DisableAgent(ctx context.Context, c *client.Client) (*UPID, error) {
 	q.Agent.Enabled = false
+	return q.UpdateConfig(ctx, c)
+}
+
+func (q *QEMU) SetBios(ctx context.Context, c *client.Client, bios string) (*UPID, error) {
+	q.Bios = bios
 	return q.UpdateConfig(ctx, c)
 }
