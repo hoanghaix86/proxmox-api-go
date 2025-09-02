@@ -1,10 +1,10 @@
 package client
 
 import (
-	"context"
 	"crypto/tls"
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -26,13 +26,19 @@ type Client struct {
 }
 
 func NewConfig() *Config {
+	tlsInsecure := os.Getenv("PROXMOX_TLS_INSECURE") == "true"
 	return &Config{
-		TLSInsecure: false,
+		TLSInsecure: tlsInsecure,
 		Timeout:     10 * time.Second,
 	}
 }
 
-func NewClient(apiUrl string, config *Config) *Client {
+func NewClient(apiUrl *string, config *Config) *Client {
+	endpoint := os.Getenv("PROXMOX_API_URL")
+	if apiUrl != nil {
+		endpoint = *apiUrl
+	}
+
 	if config == nil {
 		config = NewConfig()
 	}
@@ -40,23 +46,37 @@ func NewClient(apiUrl string, config *Config) *Client {
 	httpClient := buildHttpClient(config)
 
 	return &Client{
-		apiUrl:     apiUrl,
+		apiUrl:     endpoint,
 		config:     config,
 		httpClient: httpClient,
 	}
 }
 
-func (c *Client) AuthWithToken(tokenId, tokenSecret string) {
-	if tokenId == "" || tokenSecret == "" {
-		log.Fatalf("token id or token secret is empty")
+func (c *Client) AuthWithToken(tokenId, tokenSecret *string) {
+
+	tkId := os.Getenv("PROXMOX_TOKEN_ID")
+	tkSecret := os.Getenv("PROXMOX_TOKEN_SECRET")
+
+	if tokenId != nil {
+		tkId = *tokenId
+	}
+
+	if tokenSecret != nil {
+		tkId = *tokenSecret
+	}
+
+	if tkId == "" {
+		log.Fatal("Token Id invalid")
+	}
+
+	if tkSecret == "" {
+		log.Fatal("Token Secret invalid")
 	}
 
 	c.session = &Session{
-		TokenId:     tokenId,
-		TokenSecret: tokenSecret,
+		TokenId:     tkId,
+		TokenSecret: tkSecret,
 	}
-
-	DoRequest[any](context.Background(), c, "GET", "/version", nil, nil)
 }
 
 func buildHttpClient(config *Config) *http.Client {
