@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"log"
@@ -52,9 +53,7 @@ func ParseJsonBody[T any](b []byte) *Response[T] {
 	return &data
 }
 
-func DoRequest[T any](ctx context.Context, c *Client, method string, path string, params any, body any) *T {
-	log.SetPrefix("DoRequest::")
-
+func DoRequest[T any](ctx context.Context, c *Client, method string, path string, params any, body any) (*T, error) {
 	url := fmt.Sprintf("%s%s", c.apiUrl, path)
 
 	if params != nil {
@@ -98,31 +97,29 @@ func DoRequest[T any](ctx context.Context, c *Client, method string, path string
 		if jsonBody.Errors != nil {
 			log.Printf("errors: %s", jsonBody.Errors)
 		}
-		log.Fatal(jsonBody.Message)
+		return nil, errors.New(jsonBody.Message)
 	}
 
-	log.SetPrefix("")
-
-	return &jsonBody.Data
+	return &jsonBody.Data, nil
 
 }
 
-func Get[T any](ctx context.Context, c *Client, path string, params any, body any) *T {
+func Get[T any](ctx context.Context, c *Client, path string, params any, body any) (*T, error) {
 	return DoRequest[T](ctx, c, "GET", path, params, body)
 }
 
-func Post[T any](ctx context.Context, c *Client, path string, params any, body any) *T {
+func Post[T any](ctx context.Context, c *Client, path string, params any, body any) (*T, error) {
 	return DoRequest[T](ctx, c, "POST", path, params, body)
 }
 
-func Delete[T any](ctx context.Context, c *Client, path string, params any, body any) *T {
+func Delete[T any](ctx context.Context, c *Client, path string, params any, body any) (*T, error) {
 	return DoRequest[T](ctx, c, "DELETE", path, params, body)
 }
 
-func Put[T any](ctx context.Context, c *Client, path string, params any, body any) *T {
+func Put[T any](ctx context.Context, c *Client, path string, params any, body any) (*T, error) {
 	return DoRequest[T](ctx, c, "PUT", path, params, body)
 }
 
-func Patch[T any](ctx context.Context, c *Client, path string, params any, body any) *T {
+func Patch[T any](ctx context.Context, c *Client, path string, params any, body any) (*T, error) {
 	return DoRequest[T](ctx, c, "PATCH", path, params, body)
 }
