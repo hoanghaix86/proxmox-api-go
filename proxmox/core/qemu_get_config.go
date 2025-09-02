@@ -15,6 +15,8 @@ type GetConfigQEMUResponse struct {
 	SmBios1 string `json:"smbios1,omitempty"` // computed
 
 	Agent string `json:"agent,omitempty"`
+
+	Bios string `json:"bios,omitempty"`
 }
 
 func (q *QEMU) GetConfig(ctx context.Context, c *client.Client) (*QEMU, error) {
@@ -31,6 +33,7 @@ func (q *QEMU) GetConfig(ctx context.Context, c *client.Client) (*QEMU, error) {
 	q.SmBios1 = raw.SmBios1
 
 	q.Agent = (&attributes.Agent{}).ToDomain(raw.Agent)
+	q.Bios = raw.Bios
 
 	return q, nil
 }

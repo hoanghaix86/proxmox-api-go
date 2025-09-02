@@ -13,6 +13,7 @@ type CreateQEMURequest struct {
 	Node string `json:"node"`
 
 	Agent string `json:"agent,omitempty"`
+	Bios  string `json:"bios,omitempty"`
 }
 
 func (q *QEMU) ToCreateQEMURequest() *CreateQEMURequest {
@@ -21,6 +22,7 @@ func (q *QEMU) ToCreateQEMURequest() *CreateQEMURequest {
 		Node: q.Node,
 
 		Agent: q.Agent.ToApi(),
+		Bios:  q.Bios,
 	}
 }
 
