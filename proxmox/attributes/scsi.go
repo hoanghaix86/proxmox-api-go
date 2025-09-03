@@ -46,16 +46,12 @@ func (scsi *Scsi) ToDomain(s string) *Scsi {
 
 	scsi.Volume = strings.Split(s, ":")[0]
 
-	size := regexp.MustCompile(`size=(\d+)G`).FindString(s)
-	if size == "" {
+	size := regexp.MustCompile(`size=(\d+)`).FindStringSubmatch(s)[1]
+	val, err := strconv.Atoi(size)
+	if err != nil {
 		scsi.Size = 0
 	} else {
-		val, err := strconv.Atoi(size)
-		if err != nil {
-			scsi.Size = 0
-		} else {
-			scsi.Size = uint64(val)
-		}
+		scsi.Size = uint64(val)
 	}
 
 	scsi.Iothread = strings.Contains(s, "iothread=1")
