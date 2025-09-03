@@ -18,6 +18,7 @@ type GetConfigQEMUResponse struct {
 	Vga            string `json:"vga,omitempty"`
 	Machine        string `json:"machine,omitempty"`
 	ScsiController string `json:"scsihw,omitempty"`
+	Ide0           string `json:"ide0,omitempty"`
 	Ide2           string `json:"ide2,omitempty"`
 	Scsi0          string `json:"scsi0,omitempty"`
 	EfiDisk0       string `json:"efidisk0,omitempty"`
@@ -59,9 +60,18 @@ func (q *QEMU) GetConfig(ctx context.Context, c *client.Client) (*QEMU, error) {
 		q.Hardware.Memory = uint64(mem)
 	}
 
+	q.Hardware.Cpu = attributes.CpuType(raw.Cpu)
 	q.Hardware.Cores = raw.Cores
 	q.Hardware.Bios = attributes.BiosType(raw.Bios)
 	q.Hardware.Vga = (&attributes.Vga{}).ToDomain(raw.Vga)
+	q.Hardware.Machine = attributes.Machine(raw.Machine)
+	q.Hardware.ScsiController = raw.ScsiController
+	q.Hardware.Ide0 = (&attributes.Ide{}).ToDomain(raw.Ide0)
+	q.Hardware.Ide2 = (&attributes.Ide{}).ToDomain(raw.Ide2)
+	q.Hardware.Scsi0 = (&attributes.Scsi{}).ToDomain(raw.Scsi0)
+	q.Hardware.EfiDisk0 = (&attributes.EfIdisk{}).ToDomain(raw.EfiDisk0)
+	q.Hardware.TpmState0 = (&attributes.TpmState{}).ToDomain(raw.TpmState0)
+	q.Hardware.Net0 = (&attributes.Network{}).ToDomain(raw.Net0)
 
 	return q, nil
 }

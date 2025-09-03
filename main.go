@@ -49,11 +49,11 @@ func main() {
 
 	// PrintJson(vm)
 
-	upid, err := vm.Create(ctx, client)
-	if err != nil {
-		log.Fatalf("%s", err.Error())
-	}
-	fmt.Println(*upid)
+	// upid, err := vm.Create(ctx, client)
+	// if err != nil {
+	// 	log.Fatalf("%s", err.Error())
+	// }
+	// fmt.Println(*upid)
 	// upid, err := vm.Delete(ctx, client, nil)
 	// if err != nil {
 	// 	log.Fatalf("getconfig: %s", err.Error())
@@ -62,11 +62,11 @@ func main() {
 
 	// get config
 	// time.Sleep(4 * time.Second)
-	// config, err := vm.GetConfig(ctx, client)
-	// if err != nil {
-	// 	log.Fatalf("getconfig: %s", err.Error())
-	// }
-	// PrintJson(config)
+	config, err := vm.GetConfig(ctx, client)
+	if err != nil {
+		log.Fatalf("getconfig: %s", err.Error())
+	}
+	PrintJson(config)
 
 	// update config
 	// upid, err := vm.UpdateConfig(ctx, client)

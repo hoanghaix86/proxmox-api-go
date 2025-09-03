@@ -40,7 +40,7 @@ func (n *Network) ToDomain(s string) *Network {
 		return nil
 	}
 	n.Type = regexp.MustCompile(`(virtio|isa)`).FindString(s)
-	n.Bridge = regexp.MustCompile(`bridge=(\w+)`).FindString(s)
+	n.Bridge = regexp.MustCompile(`bridge=(\w+)`).FindStringSubmatch(s)[1]
 	n.Firewall = strings.Contains(s, "firewall=1")
 	return n
 }

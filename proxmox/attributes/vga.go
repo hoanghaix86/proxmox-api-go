@@ -48,7 +48,7 @@ func (v *Vga) ToDomain(s string) *Vga {
 		return nil
 	}
 	v.Type = VgaType(strings.Split(s, ",")[0])
-	v.Clipboard = regexp.MustCompile(`clipboard=(\w+)`).FindString(s)
-	v.Memory = regexp.MustCompile(`memory=(\w+)`).FindString(s)
+	v.Clipboard = regexp.MustCompile(`clipboard=(\w+)`).FindStringSubmatch(s)[1]
+	v.Memory = regexp.MustCompile(`memory=(\w+)`).FindStringSubmatch(s)[1]
 	return v
 }
