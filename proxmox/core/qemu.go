@@ -12,8 +12,9 @@ type Hardware struct {
 	Cores          uint64               `json:"cores"`
 	Bios           attributes.BiosType  `json:"bios"`
 	Vga            *attributes.Vga      `json:"vga"`
-	Machine        string               `json:"machine"`
+	Machine        attributes.Machine   `json:"machine"`
 	ScsiController string               `json:"scsihw"`
+	Ide0           *attributes.Ide      `json:"ide0"`
 	Ide2           *attributes.Ide      `json:"ide2"`
 	Scsi0          *attributes.Scsi     `json:"scsi0"`
 	EfiDisk0       *attributes.EfIdisk  `json:"efidisk0"`
