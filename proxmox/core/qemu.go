@@ -20,7 +20,6 @@ type Hardware struct {
 	EfiDisk0       *attributes.EfIdisk  `json:"efidisk0"`
 	TpmState0      *attributes.TpmState `json:"tpmstate0"`
 	Net0           *attributes.Network  `json:"net0"`
-	Serial0        string               `json:"serial0"`
 }
 
 type Cloudinit struct {
