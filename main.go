@@ -36,16 +36,14 @@ func main() {
 			Cores:          1,
 			Bios:           attributes.BiosTypeOvmf,
 			Vga:            attributes.NewDefaultVga(attributes.VgaTypeQxl),
-			Machine:        "q35",
+			Machine:        attributes.MachineQ35,
 			ScsiController: "virtio-scsi-single",
-			Ide2: &attributes.Ide{
-				Volume: "local",
-				Iso:    "iso/ubuntu-24.04.2-live-server-amd64.iso",
-			},
-			Scsi0:     attributes.NewScsi("local-lvm", 16),
-			EfiDisk0:  attributes.NewDefaultEfIdisk("local-lvm"),
-			TpmState0: attributes.NewDefaultTpmState("local-lvm"),
-			Net0:      attributes.NewDefaultNetwork("vmbr0"),
+			Ide0:           attributes.NewIdeCloudinit("local-lvm"),
+			Ide2:           attributes.NewIdeIso("local", "iso/ubuntu-24.04.2-live-server-amd64.iso"),
+			Scsi0:          attributes.NewScsi("local-lvm", 16),
+			EfiDisk0:       attributes.NewDefaultEfIdisk("local-lvm"),
+			TpmState0:      attributes.NewDefaultTpmState("local-lvm"),
+			Net0:           attributes.NewDefaultNetwork("vmbr0"),
 		},
 	}
 

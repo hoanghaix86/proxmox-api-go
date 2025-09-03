@@ -5,10 +5,10 @@ import (
 	"strings"
 )
 
+// Support CDROM and Cloudinit
 type Ide struct {
 	Volume string `json:"volume"`
 	Iso    string `json:"iso"`
-	Media  string `json:"media"`
 }
 
 func (i *Ide) ToApi() string {
@@ -17,7 +17,7 @@ func (i *Ide) ToApi() string {
 	}
 
 	if i.Iso == "" {
-		return fmt.Sprintf("%s:%s,media=disk", i.Volume, i.Media)
+		return fmt.Sprintf("%s:cloudinit", i.Volume)
 	}
 
 	return fmt.Sprintf("%s:%s,media=cdrom", i.Volume, i.Iso)
@@ -29,12 +29,22 @@ func (i *Ide) ToDomain(s string) *Ide {
 	}
 	i.Volume = strings.Split(s, ":")[0]
 
-	if strings.Contains(s, "cdrom") {
-		i.Media = "cdrom"
+	if !strings.Contains(s, "cloudinit") {
 		i.Iso = strings.Split(strings.Split(s, ",")[0], ":")[1]
-	} else {
-		i.Media = "disk"
 	}
 
 	return i
+}
+
+func NewIdeIso(volume string, iso string) *Ide {
+	return &Ide{
+		Volume: volume,
+		Iso:    iso,
+	}
+}
+
+func NewIdeCloudinit(volume string) *Ide {
+	return &Ide{
+		Volume: volume,
+	}
 }

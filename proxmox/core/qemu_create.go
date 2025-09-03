@@ -19,6 +19,7 @@ type CreateQEMURequest struct {
 	Vga            string `json:"vga,omitempty"`
 	Machine        string `json:"machine,omitempty"`
 	ScsiController string `json:"scsihw,omitempty"`
+	Ide0           string `json:"ide0,omitempty"`
 	Ide2           string `json:"ide2,omitempty"`
 	Scsi0          string `json:"scsi0,omitempty"`
 	EfiDisk0       string `json:"efidisk0,omitempty"`
@@ -53,8 +54,9 @@ func (q *QEMU) ToCreateQEMURequest() *CreateQEMURequest {
 		Cores:          q.Hardware.Cores,
 		Bios:           string(q.Hardware.Bios),
 		Vga:            q.Hardware.Vga.ToApi(),
-		Machine:        q.Hardware.Machine,
+		Machine:        string(q.Hardware.Machine),
 		ScsiController: q.Hardware.ScsiController,
+		Ide0:           q.Hardware.Ide0.ToApi(),
 		Ide2:           q.Hardware.Ide2.ToApi(),
 		Scsi0:          q.Hardware.Scsi0.ToApi(),
 		EfiDisk0:       q.Hardware.EfiDisk0.ToApi(),
