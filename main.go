@@ -30,13 +30,26 @@ func main() {
 	vm := core.QEMU{
 		Id:   300,
 		Node: "proxmox",
-		Agent: &attributes.Agent{
-			Enabled:           true,
-			FreezeFsOnBackup:  true,
-			FstrimClonedDisks: true,
-			Type:              "virtio",
+		Hardware: core.Hardware{
+			Memory:         1024,
+			Cpu:            "x86-64-v2-AES",
+			Cores:          1,
+			Bios:           "ovmf",
+			Vga:            "qxl,clipboard=vnc,memory=64",
+			Machine:        "q35",
+			ScsiController: "virtio-scsi-single",
+			Ide2: &attributes.Ide{
+				Volume: "local",
+				Iso:    "iso/ubuntu-24.04.2-live-server-amd64.iso",
+			},
+			Scsi0:     "local-lvm:16,iothread=on,ssd=1,discard=on",
+			EfiDisk0:  attributes.NewDefaultEfIdisk("local-lvm"),
+			TpmState0: attributes.NewDefaultTpmState("local-lvm"),
+			Net0:      attributes.NewDefaultNetwork("vmbr0"),
 		},
 	}
+
+	// PrintJson(vm)
 
 	// upid, err := vm.Create(ctx, client)
 	// if err != nil {
@@ -48,6 +61,9 @@ func main() {
 	// 	log.Fatalf("getconfig: %s", err.Error())
 	// }
 	// fmt.Println(*upid)
+
+	// get config
+	// time.Sleep(4 * time.Second)
 	config, err := vm.GetConfig(ctx, client)
 	if err != nil {
 		log.Fatalf("getconfig: %s", err.Error())
