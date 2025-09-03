@@ -11,7 +11,6 @@ import (
 type CreateQEMURequest struct {
 	Id   uint64 `json:"vmid"`
 	Node string `json:"node"`
-
 	//Hardware//
 	Memory         uint64 `json:"memory,omitempty"`
 	Cpu            string `json:"cpu,omitempty"`
@@ -57,7 +56,7 @@ func (q *QEMU) ToCreateQEMURequest() *CreateQEMURequest {
 		Machine:        q.Hardware.Machine,
 		ScsiController: q.Hardware.ScsiController,
 		Ide2:           q.Hardware.Ide2.ToApi(),
-		Scsi0:          q.Hardware.Scsi0,
+		Scsi0:          q.Hardware.Scsi0.ToApi(),
 		EfiDisk0:       q.Hardware.EfiDisk0.ToApi(),
 		TpmState0:      q.Hardware.TpmState0.ToApi(),
 		Net0:           q.Hardware.Net0.ToApi(),
