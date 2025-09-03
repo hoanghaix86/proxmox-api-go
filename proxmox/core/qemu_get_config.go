@@ -23,7 +23,6 @@ type GetConfigQEMUResponse struct {
 	EfiDisk0       string `json:"efidisk0,omitempty"`
 	TpmState0      string `json:"tpmstate0,omitempty"`
 	Net0           string `json:"net0,omitempty"`
-	Serial0        string `json:"serial0,omitempty"`
 	//Cloudinit//
 	CiUser       string `json:"ciuser,omitempty"`
 	CiPassword   string `json:"cipassword,omitempty"`

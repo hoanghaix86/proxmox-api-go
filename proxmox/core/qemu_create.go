@@ -25,7 +25,6 @@ type CreateQEMURequest struct {
 	EfiDisk0       string `json:"efidisk0,omitempty"`
 	TpmState0      string `json:"tpmstate0,omitempty"`
 	Net0           string `json:"net0,omitempty"`
-	Serial0        string `json:"serial0,omitempty"`
 	//Cloudinit//
 	CiUser       string `json:"ciuser,omitempty"`
 	CiPassword   string `json:"cipassword,omitempty"`
@@ -62,7 +61,6 @@ func (q *QEMU) ToCreateQEMURequest() *CreateQEMURequest {
 		EfiDisk0:       q.Hardware.EfiDisk0.ToApi(),
 		TpmState0:      q.Hardware.TpmState0.ToApi(),
 		Net0:           q.Hardware.Net0.ToApi(),
-		Serial0:        q.Hardware.Serial0,
 		//Cloudinit//
 		CiUser:       q.Cloudinit.CiUser,
 		CiPassword:   q.Cloudinit.CiPassword,
