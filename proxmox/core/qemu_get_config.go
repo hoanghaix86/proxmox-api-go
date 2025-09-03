@@ -61,7 +61,7 @@ func (q *QEMU) GetConfig(ctx context.Context, c *client.Client) (*QEMU, error) {
 	}
 
 	q.Hardware.Cores = raw.Cores
-	q.Hardware.Bios = raw.Bios
+	q.Hardware.Bios = attributes.BiosType(raw.Bios)
 	q.Hardware.Vga = (&attributes.Vga{}).ToDomain(raw.Vga)
 
 	return q, nil
