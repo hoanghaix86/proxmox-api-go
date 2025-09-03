@@ -23,6 +23,9 @@ func NewAgent() *Agent {
 }
 
 func (a *Agent) ToApi() string {
+	if a == nil {
+		return ""
+	}
 	str := fmt.Sprintf("enabled=%t,freeze-fs-on-backup=%t,fstrim_cloned_disks=%t,type=%s", a.Enabled, a.FreezeFsOnBackup, a.FstrimClonedDisks, a.Type)
 	str = strings.ReplaceAll(str, "true", "1")
 	str = strings.ReplaceAll(str, "false", "0")
@@ -30,6 +33,9 @@ func (a *Agent) ToApi() string {
 }
 
 func (a *Agent) ToDomain(s string) *Agent {
+	if a == nil {
+		return nil
+	}
 	a.Enabled = strings.Contains(s, "enabled=1") || strings.HasPrefix(s, "1")
 	a.FreezeFsOnBackup = strings.Contains(s, "freeze-fs-on-backup=1")
 	a.FstrimClonedDisks = strings.Contains(s, "fstrim_cloned_disks=1")
