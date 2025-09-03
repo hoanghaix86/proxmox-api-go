@@ -50,9 +50,9 @@ func (q *QEMU) ToCreateQEMURequest() *CreateQEMURequest {
 
 		//Hardware//
 		Memory:         q.Hardware.Memory,
-		Cpu:            q.Hardware.Cpu,
+		Cpu:            string(q.Hardware.Cpu),
 		Cores:          q.Hardware.Cores,
-		Bios:           q.Hardware.Bios,
+		Bios:           string(q.Hardware.Bios),
 		Vga:            q.Hardware.Vga.ToApi(),
 		Machine:        q.Hardware.Machine,
 		ScsiController: q.Hardware.ScsiController,

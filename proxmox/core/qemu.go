@@ -8,9 +8,9 @@ type UPID string
 
 type Hardware struct {
 	Memory         uint64               `json:"memory"`
-	Cpu            string               `json:"cpu"`
+	Cpu            attributes.CpuType   `json:"cpu"`
 	Cores          uint64               `json:"cores"`
-	Bios           string               `json:"bios"`
+	Bios           attributes.BiosType  `json:"bios"`
 	Vga            *attributes.Vga      `json:"vga"`
 	Machine        string               `json:"machine"`
 	ScsiController string               `json:"scsihw"`

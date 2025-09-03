@@ -32,9 +32,9 @@ func main() {
 		Node: "proxmox",
 		Hardware: core.Hardware{
 			Memory:         1024,
-			Cpu:            "x86-64-v2-AES",
+			Cpu:            attributes.CpuTypeX8664V2AES,
 			Cores:          1,
-			Bios:           "ovmf",
+			Bios:           attributes.BiosTypeOvmf,
 			Vga:            attributes.NewDefaultVga(attributes.VgaTypeQxl),
 			Machine:        "q35",
 			ScsiController: "virtio-scsi-single",

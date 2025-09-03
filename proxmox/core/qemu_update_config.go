@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hoanghaix86/proxmox-api-go/proxmox/attributes"
 	"github.com/hoanghaix86/proxmox-api-go/proxmox/client"
 )
 
@@ -15,7 +16,7 @@ type UpdateConfigQEMURequest struct {
 func (q *QEMU) ToUpdateConfigQEMURequest() *UpdateConfigQEMURequest {
 	return &UpdateConfigQEMURequest{
 		Agent: q.Agent.ToApi(),
-		Bios:  q.Bios,
+		Bios:  string(q.Bios),
 	}
 }
 
@@ -42,6 +43,6 @@ func (q *QEMU) DisableAgent(ctx context.Context, c *client.Client) (*UPID, error
 }
 
 func (q *QEMU) SetBios(ctx context.Context, c *client.Client, bios string) (*UPID, error) {
-	q.Bios = bios
+	q.Bios = attributes.BiosType(bios)
 	return q.UpdateConfig(ctx, c)
 }
