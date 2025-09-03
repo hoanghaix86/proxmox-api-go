@@ -35,7 +35,7 @@ func main() {
 			Cpu:            "x86-64-v2-AES",
 			Cores:          1,
 			Bios:           "ovmf",
-			Vga:            "qxl,clipboard=vnc,memory=64",
+			Vga:            attributes.NewDefaultVga(),
 			Machine:        "q35",
 			ScsiController: "virtio-scsi-single",
 			Ide2: &attributes.Ide{
