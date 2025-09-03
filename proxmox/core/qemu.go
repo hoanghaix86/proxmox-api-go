@@ -11,7 +11,7 @@ type Hardware struct {
 	Cpu            string               `json:"cpu"`
 	Cores          uint64               `json:"cores"`
 	Bios           string               `json:"bios"`
-	Vga            string               `json:"vga"`
+	Vga            *attributes.Vga      `json:"vga"`
 	Machine        string               `json:"machine"`
 	ScsiController string               `json:"scsihw"`
 	Ide2           *attributes.Ide      `json:"ide2"`
@@ -39,7 +39,9 @@ type Options struct {
 	OsType      string            `json:"ostype"`
 	Boot        string            `json:"boot"`
 	Agent       *attributes.Agent `json:"agent,omitempty"`
-	SmBios1     string            `json:"smbios1,omitempty"` // computed
+	SmBios1     string            `json:"smbios1,omitempty"`
+	VmGenId     string            `json:"vmgenid,omitempty"`
+	Meta        string            `json:"meta,omitempty"`
 }
 
 type QEMU struct {
@@ -49,7 +51,4 @@ type QEMU struct {
 	Hardware
 	Cloudinit
 	Options
-
-	VmGenId string `json:"vmgenid,omitempty"` // computed
-	Meta    string `json:"meta,omitempty"`    // computed
 }

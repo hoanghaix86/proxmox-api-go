@@ -11,7 +11,8 @@ import (
 type CreateQEMURequest struct {
 	Id   uint64 `json:"vmid"`
 	Node string `json:"node"`
-	// Hardware //
+
+	//Hardware//
 	Memory         uint64 `json:"memory,omitempty"`
 	Cpu            string `json:"cpu,omitempty"`
 	Cores          uint64 `json:"cores,omitempty"`
@@ -25,7 +26,7 @@ type CreateQEMURequest struct {
 	TpmState0      string `json:"tpmstate0,omitempty"`
 	Net0           string `json:"net0,omitempty"`
 	Serial0        string `json:"serial0,omitempty"`
-	// Cloudinit //
+	//Cloudinit//
 	CiUser       string `json:"ciuser,omitempty"`
 	CiPassword   string `json:"cipassword,omitempty"`
 	SearchDomain string `json:"searchdomain,omitempty"`
@@ -33,7 +34,7 @@ type CreateQEMURequest struct {
 	SshKeys      string `json:"sshkeys,omitempty"`
 	CiUpgrade    bool   `json:"ciupgrade,omitempty"`
 	CiCustom     string `json:"cicustom,omitempty"`
-	// Options //
+	//Options//
 	Name        string `json:"name,omitempty"`
 	Description string `json:"description,omitempty"`
 	Startup     string `json:"startup,omitempty"`
@@ -46,12 +47,13 @@ func (q *QEMU) ToCreateQEMURequest() *CreateQEMURequest {
 	return &CreateQEMURequest{
 		Id:   q.Id,
 		Node: q.Node,
-		// Hardware //
+
+		//Hardware//
 		Memory:         q.Hardware.Memory,
 		Cpu:            q.Hardware.Cpu,
 		Cores:          q.Hardware.Cores,
 		Bios:           q.Hardware.Bios,
-		Vga:            q.Hardware.Vga,
+		Vga:            q.Hardware.Vga.ToApi(),
 		Machine:        q.Hardware.Machine,
 		ScsiController: q.Hardware.ScsiController,
 		Ide2:           q.Hardware.Ide2.ToApi(),
@@ -60,7 +62,7 @@ func (q *QEMU) ToCreateQEMURequest() *CreateQEMURequest {
 		TpmState0:      q.Hardware.TpmState0.ToApi(),
 		Net0:           q.Hardware.Net0.ToApi(),
 		Serial0:        q.Hardware.Serial0,
-		// Cloudinit //
+		//Cloudinit//
 		CiUser:       q.Cloudinit.CiUser,
 		CiPassword:   q.Cloudinit.CiPassword,
 		SearchDomain: q.Cloudinit.SearchDomain,
@@ -68,7 +70,7 @@ func (q *QEMU) ToCreateQEMURequest() *CreateQEMURequest {
 		SshKeys:      q.Cloudinit.SshKeys,
 		CiUpgrade:    q.Cloudinit.CiUpgrade,
 		CiCustom:     q.Cloudinit.CiCustom,
-		// Options //
+		//Options//
 		Name:        q.Options.Name,
 		Description: q.Options.Description,
 		Startup:     q.Options.Startup,
