@@ -15,7 +15,7 @@ type Hardware struct {
 	Machine        string               `json:"machine"`
 	ScsiController string               `json:"scsihw"`
 	Ide2           *attributes.Ide      `json:"ide2"`
-	Scsi0          string               `json:"scsi0"`
+	Scsi0          *attributes.Scsi     `json:"scsi0"`
 	EfiDisk0       *attributes.EfIdisk  `json:"efidisk0"`
 	TpmState0      *attributes.TpmState `json:"tpmstate0"`
 	Net0           *attributes.Network  `json:"net0"`
@@ -47,7 +47,6 @@ type Options struct {
 type QEMU struct {
 	Id   uint64 `json:"id"`
 	Node string `json:"node"`
-
 	Hardware
 	Cloudinit
 	Options

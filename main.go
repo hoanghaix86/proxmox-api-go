@@ -42,7 +42,7 @@ func main() {
 				Volume: "local",
 				Iso:    "iso/ubuntu-24.04.2-live-server-amd64.iso",
 			},
-			Scsi0:     "local-lvm:16,iothread=on,ssd=1,discard=on",
+			Scsi0:     attributes.NewScsi("local-lvm", 16),
 			EfiDisk0:  attributes.NewDefaultEfIdisk("local-lvm"),
 			TpmState0: attributes.NewDefaultTpmState("local-lvm"),
 			Net0:      attributes.NewDefaultNetwork("vmbr0"),
@@ -51,11 +51,11 @@ func main() {
 
 	// PrintJson(vm)
 
-	// upid, err := vm.Create(ctx, client)
-	// if err != nil {
-	// 	log.Fatalf("%s", err.Error())
-	// }
-	// fmt.Println(*upid)
+	upid, err := vm.Create(ctx, client)
+	if err != nil {
+		log.Fatalf("%s", err.Error())
+	}
+	fmt.Println(*upid)
 	// upid, err := vm.Delete(ctx, client, nil)
 	// if err != nil {
 	// 	log.Fatalf("getconfig: %s", err.Error())
@@ -64,11 +64,11 @@ func main() {
 
 	// get config
 	// time.Sleep(4 * time.Second)
-	config, err := vm.GetConfig(ctx, client)
-	if err != nil {
-		log.Fatalf("getconfig: %s", err.Error())
-	}
-	PrintJson(config)
+	// config, err := vm.GetConfig(ctx, client)
+	// if err != nil {
+	// 	log.Fatalf("getconfig: %s", err.Error())
+	// }
+	// PrintJson(config)
 
 	// update config
 	// upid, err := vm.UpdateConfig(ctx, client)
