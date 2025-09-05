@@ -104,3 +104,34 @@ qm create 300 \
   --agent '1,freeze-fs-on-backup=1,fstrim_cloned_disks=1,type=virtio' \
   --template 1
 ```
+
+4. Clone VM
+
+```go
+func main() {
+	ctx := context.Background()
+
+	client := client.NewClient(nil, nil)
+	client.AuthWithToken(nil, nil)
+
+	vm := core.QEMU{
+		Id:   300,
+		Node: "proxmox",
+	}
+
+	targetVM := core.QEMU{
+		Id:   400,
+		Node: "proxmox",
+		Options: core.Options{
+			Name:    "testing-clone",
+			Storage: "local-lvm",
+		},
+	}
+
+	upid, err := vm.Clone(ctx, client, &targetVM)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(*upid)
+}
+```
