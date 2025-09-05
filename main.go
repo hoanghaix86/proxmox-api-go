@@ -63,11 +63,11 @@ func main() {
 
 	// get config
 	// time.Sleep(4 * time.Second)
-	// config, err := vm.GetConfig(ctx, client)
-	// if err != nil {
-	// 	log.Fatalf("getconfig: %s", err.Error())
-	// }
-	// PrintJson(config)
+	config, err := vm.GetConfig(ctx, client)
+	if err != nil {
+		log.Fatalf("getconfig: %s", err.Error())
+	}
+	PrintJson(config)
 
 	// update config
 	// upid, err := vm.UpdateConfig(ctx, client)

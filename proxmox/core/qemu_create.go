@@ -33,6 +33,7 @@ type CreateQEMURequest struct {
 	SshKeys      string `json:"sshkeys,omitempty"`
 	CiUpgrade    bool   `json:"ciupgrade,omitempty"`
 	CiCustom     string `json:"cicustom,omitempty"`
+	IpConfig0    string `json:"ipconfig0,omitempty"`
 	//Options//
 	Name        string `json:"name,omitempty"`
 	Description string `json:"description,omitempty"`
@@ -72,6 +73,7 @@ func (q *QEMU) ToCreateQEMURequest() *CreateQEMURequest {
 		SshKeys:      q.Cloudinit.SshKeys,
 		CiUpgrade:    q.Cloudinit.CiUpgrade,
 		CiCustom:     q.Cloudinit.CiCustom,
+		IpConfig0:    q.Cloudinit.IpConfig0,
 		//Options//
 		Name:        q.Options.Name,
 		Description: q.Options.Description,

@@ -30,8 +30,9 @@ type GetConfigQEMUResponse struct {
 	SearchDomain string `json:"searchdomain,omitempty"`
 	NameServer   string `json:"nameserver,omitempty"`
 	SshKeys      string `json:"sshkeys,omitempty"`
-	CiUpgrade    bool   `json:"ciupgrade,omitempty"`
+	CiUpgrade    uint   `json:"ciupgrade,omitempty"`
 	CiCustom     string `json:"cicustom,omitempty"`
+	IpConfig0    string `json:"ipconfig0,omitempty"`
 	//Options//
 	Name        string `json:"name,omitempty"`
 	Description string `json:"description,omitempty"`
@@ -81,8 +82,9 @@ func (q *QEMU) GetConfig(ctx context.Context, c *client.Client) (*QEMU, error) {
 	q.Cloudinit.SearchDomain = raw.SearchDomain
 	q.Cloudinit.NameServer = raw.NameServer
 	q.Cloudinit.SshKeys = raw.SshKeys
-	q.Cloudinit.CiUpgrade = raw.CiUpgrade
+	q.Cloudinit.CiUpgrade = raw.CiUpgrade == 1
 	q.Cloudinit.CiCustom = raw.CiCustom
+	q.Cloudinit.IpConfig0 = raw.IpConfig0
 	// Options //
 	q.Options.Name = raw.Name
 	q.Options.Description = raw.Description
