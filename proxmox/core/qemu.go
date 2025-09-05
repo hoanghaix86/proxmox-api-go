@@ -31,6 +31,7 @@ type Cloudinit struct {
 	SshKeys      string `json:"sshkeys"`
 	CiUpgrade    bool   `json:"ciupgrade"`
 	CiCustom     string `json:"cicustom"`
+	IpConfig0    string `json:"ipconfig0"`
 }
 
 type Options struct {
