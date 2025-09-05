@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hoanghaix86/proxmox-api-go/proxmox/attributes"
 	"github.com/hoanghaix86/proxmox-api-go/proxmox/client"
 	"github.com/hoanghaix86/proxmox-api-go/proxmox/core"
 )
@@ -28,27 +27,22 @@ func main() {
 	vm := core.QEMU{
 		Id:   300,
 		Node: "proxmox",
-		Hardware: core.Hardware{
-			Memory:         4096,
-			Cpu:            attributes.CpuTypeX8664V2AES,
-			Cores:          4,
-			Bios:           attributes.BiosTypeOvmf,
-			Vga:            attributes.NewVga(attributes.VgaTypeStd),
-			Machine:        attributes.MachineQ35,
-			ScsiController: "virtio-scsi-single",
-			Ide2:           attributes.NewIdeIso("local", "iso/ubuntu-24.04.2-live-server-amd64.iso"),
-			Scsi0:          attributes.NewScsi("local-lvm", 16),
-			EfiDisk0:       attributes.NewDefaultEfIdisk("local-lvm"),
-			TpmState0:      attributes.NewDefaultTpmState("local-lvm"),
-			Net0:           attributes.NewDefaultNetwork("vmbr0"),
-		},
+	}
+
+	targetVM := core.QEMU{
+		Id:   400,
+		Node: "proxmox",
 		Options: core.Options{
-			Name:        "testing",
-			Description: "this is a testing",
-			OsType:      attributes.OsTypeL26,
-			Agent:       attributes.NewAgent(),
+			Name:    "testing-clone",
+			Storage: "local-lvm",
 		},
 	}
+
+	upid, err := vm.Clone(ctx, client, &targetVM)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(*upid)
 
 	// upid, err := vm.Create(ctx, client)
 	// if err != nil {
@@ -63,11 +57,11 @@ func main() {
 
 	// get config
 	// time.Sleep(4 * time.Second)
-	config, err := vm.GetConfig(ctx, client)
-	if err != nil {
-		log.Fatalf("getconfig: %s", err.Error())
-	}
-	PrintJson(config)
+	// config, err := vm.GetConfig(ctx, client)
+	// if err != nil {
+	// 	log.Fatalf("getconfig: %s", err.Error())
+	// }
+	// PrintJson(config)
 
 	// update config
 	// upid, err := vm.UpdateConfig(ctx, client)

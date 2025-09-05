@@ -46,6 +46,7 @@ type Options struct {
 	VmGenId     string            `json:"vmgenid"`
 	Meta        string            `json:"meta"`
 	Template    bool              `json:"template"`
+	Storage     string            `json:"storage"`
 }
 
 type QEMU struct {
