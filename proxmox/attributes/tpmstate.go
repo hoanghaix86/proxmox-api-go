@@ -22,7 +22,7 @@ func (t *TpmState) ToApi() string {
 	if t == nil {
 		return ""
 	}
-	return fmt.Sprintf("%s:1,version=%s", t.Volume, t.Version)
+	return fmt.Sprintf("%s:0,version=%s", t.Volume, t.Version)
 }
 
 func (t *TpmState) ToDomain(s string) *TpmState {

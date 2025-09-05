@@ -20,8 +20,6 @@ func PrintJson(v any) {
 }
 
 func main() {
-	fmt.Println("PROXMOX API GO BETA")
-
 	ctx := context.Background()
 
 	client := client.NewClient(nil, nil)
@@ -45,15 +43,22 @@ func main() {
 			TpmState0:      attributes.NewDefaultTpmState("local-lvm"),
 			Net0:           attributes.NewDefaultNetwork("vmbr0"),
 		},
+		Options: core.Options{
+			Name:        "testing",
+			Description: "this is a testing",
+			Startup:     "order=1,up=10,down=10",
+			OsType:      attributes.OsTypeL26,
+			Boot:        "order=scsi0;ide2;net0",
+			Agent:       attributes.NewAgent(),
+			OnBoot:      true,
+		},
 	}
 
-	// PrintJson(vm)
-
-	// upid, err := vm.Create(ctx, client)
-	// if err != nil {
-	// 	log.Fatalf("%s", err.Error())
-	// }
-	// fmt.Println(*upid)
+	upid, err := vm.Create(ctx, client)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(*upid)
 	// upid, err := vm.Delete(ctx, client, nil)
 	// if err != nil {
 	// 	log.Fatalf("getconfig: %s", err.Error())
@@ -62,11 +67,11 @@ func main() {
 
 	// get config
 	// time.Sleep(4 * time.Second)
-	config, err := vm.GetConfig(ctx, client)
-	if err != nil {
-		log.Fatalf("getconfig: %s", err.Error())
-	}
-	PrintJson(config)
+	// config, err := vm.GetConfig(ctx, client)
+	// if err != nil {
+	// 	log.Fatalf("getconfig: %s", err.Error())
+	// }
+	// PrintJson(config)
 
 	// update config
 	// upid, err := vm.UpdateConfig(ctx, client)
