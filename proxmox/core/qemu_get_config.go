@@ -43,6 +43,8 @@ type GetConfigQEMUResponse struct {
 	SmBios1     string `json:"smbios1,omitempty"`
 	VmGenId     string `json:"vmgenid,omitempty"`
 	Meta        string `json:"meta,omitempty"`
+	Template    uint   `json:"template,omitempty"`
+	Serial0     string `json:"serial0,omitempty"`
 }
 
 func (q *QEMU) GetConfig(ctx context.Context, c *client.Client) (*QEMU, error) {
@@ -92,6 +94,8 @@ func (q *QEMU) GetConfig(ctx context.Context, c *client.Client) (*QEMU, error) {
 	q.Options.SmBios1 = raw.SmBios1
 	q.Options.VmGenId = raw.VmGenId
 	q.Options.Meta = raw.Meta
+	q.Options.Template = raw.Template == 1
+	q.Serial0 = raw.Serial0
 
 	return q, nil
 }

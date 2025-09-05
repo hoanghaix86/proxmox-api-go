@@ -2,7 +2,7 @@
 
 ## Example
 
-1. Create VM
+1. Create VM with ISO
 
 ```go
 func main() {
@@ -15,11 +15,11 @@ func main() {
 		Id:   300,
 		Node: "proxmox",
 		Hardware: core.Hardware{
-			Memory:         1024,
+			Memory:         4096,
 			Cpu:            attributes.CpuTypeX8664V2AES,
-			Cores:          1,
+			Cores:          4,
 			Bios:           attributes.BiosTypeOvmf,
-			Vga:            attributes.NewDefaultVga(attributes.VgaTypeQxl),
+			Vga:            attributes.NewVga(attributes.VgaTypeStd),
 			Machine:        attributes.MachineQ35,
 			ScsiController: "virtio-scsi-single",
 			Ide2:           attributes.NewIdeIso("local", "iso/ubuntu-24.04.2-live-server-amd64.iso"),
@@ -31,9 +31,7 @@ func main() {
 		Options: core.Options{
 			Name:        "testing",
 			Description: "this is a testing",
-			Startup:     "order=1,up=10,down=10",
 			OsType:      attributes.OsTypeL26,
-			Boot:        "order=scsi0;ide2;net0",
 			Agent:       attributes.NewAgent(),
 		},
 	}
@@ -45,3 +43,5 @@ func main() {
 	fmt.Println(*upid)
 }
 ```
+
+2. Clone VM from template

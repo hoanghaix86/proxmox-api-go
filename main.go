@@ -29,14 +29,13 @@ func main() {
 		Id:   300,
 		Node: "proxmox",
 		Hardware: core.Hardware{
-			Memory:         1024,
+			Memory:         4096,
 			Cpu:            attributes.CpuTypeX8664V2AES,
-			Cores:          1,
+			Cores:          4,
 			Bios:           attributes.BiosTypeOvmf,
-			Vga:            attributes.NewDefaultVga(attributes.VgaTypeQxl),
+			Vga:            attributes.NewVga(attributes.VgaTypeStd),
 			Machine:        attributes.MachineQ35,
 			ScsiController: "virtio-scsi-single",
-			Ide0:           attributes.NewIdeCloudinit("local-lvm"),
 			Ide2:           attributes.NewIdeIso("local", "iso/ubuntu-24.04.2-live-server-amd64.iso"),
 			Scsi0:          attributes.NewScsi("local-lvm", 16),
 			EfiDisk0:       attributes.NewDefaultEfIdisk("local-lvm"),
@@ -46,19 +45,16 @@ func main() {
 		Options: core.Options{
 			Name:        "testing",
 			Description: "this is a testing",
-			Startup:     "order=1,up=10,down=10",
 			OsType:      attributes.OsTypeL26,
-			Boot:        "order=scsi0;ide2;net0",
 			Agent:       attributes.NewAgent(),
-			OnBoot:      true,
 		},
 	}
 
-	upid, err := vm.Create(ctx, client)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(*upid)
+	// upid, err := vm.Create(ctx, client)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// fmt.Println(*upid)
 	// upid, err := vm.Delete(ctx, client, nil)
 	// if err != nil {
 	// 	log.Fatalf("getconfig: %s", err.Error())
