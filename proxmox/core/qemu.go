@@ -20,6 +20,7 @@ type Hardware struct {
 	EfiDisk0       *attributes.EfIdisk  `json:"efidisk0"`
 	TpmState0      *attributes.TpmState `json:"tpmstate0"`
 	Net0           *attributes.Network  `json:"net0"`
+	Serial0        string               `json:"serial0"`
 }
 
 type Cloudinit struct {
@@ -43,6 +44,7 @@ type Options struct {
 	SmBios1     string            `json:"smbios1"`
 	VmGenId     string            `json:"vmgenid"`
 	Meta        string            `json:"meta"`
+	Template    bool              `json:"template"`
 }
 
 type QEMU struct {

@@ -41,6 +41,8 @@ type CreateQEMURequest struct {
 	Boot        string `json:"boot,omitempty"`
 	Agent       string `json:"agent,omitempty"`
 	OnBoot      bool   `json:"onboot,omitempty"`
+	Template    bool   `json:"template,omitempty"`
+	Serial0     string `json:"serial0,omitempty"`
 }
 
 func (q *QEMU) ToCreateQEMURequest() *CreateQEMURequest {
@@ -78,6 +80,8 @@ func (q *QEMU) ToCreateQEMURequest() *CreateQEMURequest {
 		Boot:        q.Options.Boot,
 		Agent:       q.Agent.ToApi(),
 		OnBoot:      q.Options.OnBoot,
+		Template:    q.Options.Template,
+		Serial0:     q.Serial0,
 	}
 }
 
