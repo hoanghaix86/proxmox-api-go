@@ -39,6 +39,7 @@ type GetConfigQEMUResponse struct {
 	OsType      string `json:"ostype,omitempty"`
 	Boot        string `json:"boot,omitempty"`
 	Agent       string `json:"agent,omitempty"`
+	OnBoot      uint64 `json:"onboot,omitempty"`
 	SmBios1     string `json:"smbios1,omitempty"`
 	VmGenId     string `json:"vmgenid,omitempty"`
 	Meta        string `json:"meta,omitempty"`
@@ -72,6 +73,25 @@ func (q *QEMU) GetConfig(ctx context.Context, c *client.Client) (*QEMU, error) {
 	q.Hardware.EfiDisk0 = (&attributes.EfIdisk{}).ToDomain(raw.EfiDisk0)
 	q.Hardware.TpmState0 = (&attributes.TpmState{}).ToDomain(raw.TpmState0)
 	q.Hardware.Net0 = (&attributes.Network{}).ToDomain(raw.Net0)
+	// Cloudinit //
+	q.Cloudinit.CiUser = raw.CiUser
+	q.Cloudinit.CiPassword = raw.CiPassword
+	q.Cloudinit.SearchDomain = raw.SearchDomain
+	q.Cloudinit.NameServer = raw.NameServer
+	q.Cloudinit.SshKeys = raw.SshKeys
+	q.Cloudinit.CiUpgrade = raw.CiUpgrade
+	q.Cloudinit.CiCustom = raw.CiCustom
+	// Options //
+	q.Options.Name = raw.Name
+	q.Options.Description = raw.Description
+	q.Options.Startup = raw.Startup
+	q.Options.OsType = attributes.OsType(raw.OsType)
+	q.Options.Boot = raw.Boot
+	q.Options.Agent = (&attributes.Agent{}).ToDomain(raw.Agent)
+	q.Options.OnBoot = raw.OnBoot == 1
+	q.Options.SmBios1 = raw.SmBios1
+	q.Options.VmGenId = raw.VmGenId
+	q.Options.Meta = raw.Meta
 
 	return q, nil
 }

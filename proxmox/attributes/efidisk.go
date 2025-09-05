@@ -24,7 +24,7 @@ func (e *EfIdisk) ToApi() string {
 	if e == nil {
 		return ""
 	}
-	str := fmt.Sprintf("%s:1,efitype=%s,pre-enrolled-keys=%t", e.Volume, e.EfiType, e.PreEnrolledKeys)
+	str := fmt.Sprintf("%s:0,efitype=%s,pre-enrolled-keys=%t", e.Volume, e.EfiType, e.PreEnrolledKeys)
 	str = strings.ReplaceAll(str, "true", "1")
 	str = strings.ReplaceAll(str, "false", "0")
 	return str

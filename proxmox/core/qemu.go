@@ -35,13 +35,14 @@ type Cloudinit struct {
 type Options struct {
 	Name        string            `json:"name"`
 	Description string            `json:"description"`
-	Startup     string            `json:"startup"`
-	OsType      string            `json:"ostype"`
-	Boot        string            `json:"boot"`
-	Agent       *attributes.Agent `json:"agent,omitempty"`
-	SmBios1     string            `json:"smbios1,omitempty"`
-	VmGenId     string            `json:"vmgenid,omitempty"`
-	Meta        string            `json:"meta,omitempty"`
+	Startup     string            `json:"startup"` // Format: [[order=]\d+] [,up=\d+] [,down=\d+]
+	OsType      attributes.OsType `json:"ostype"`
+	Boot        string            `json:"boot"` // Format: order=<device[;device...]>
+	Agent       *attributes.Agent `json:"agent"`
+	OnBoot      bool              `json:"onboot"`
+	SmBios1     string            `json:"smbios1"`
+	VmGenId     string            `json:"vmgenid"`
+	Meta        string            `json:"meta"`
 }
 
 type QEMU struct {
