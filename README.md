@@ -1,5 +1,9 @@
 # PROXMOX API GO
 
+## Limitations
+
+- Not support `import-from` like: `--scsi0 local-lvm:0,import-from=/root/noble-server-cloudimg-amd64.img`, it only work with root user
+
 ## Example
 
 ### 1. Create VM with ISO
