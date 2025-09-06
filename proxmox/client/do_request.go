@@ -62,7 +62,7 @@ func DoRequest[T any](ctx context.Context, c *Client, method string, path string
 
 	req, err := http.NewRequestWithContext(ctx, method, url, ToJsonBody(body))
 	if err != nil {
-		log.Fatalf("failed to create request: %v", err)
+		return nil, errors.New("failed to create request: " + err.Error())
 	}
 
 	req.Header.Set("Content-Type", "application/json")
@@ -73,7 +73,7 @@ func DoRequest[T any](ctx context.Context, c *Client, method string, path string
 
 	res, err := c.httpClient.Do(req)
 	if err != nil {
-		log.Fatalf("failed to do request: %v", err)
+		return nil, errors.New("failed to do request: " + err.Error())
 	}
 
 	defer res.Body.Close()
@@ -81,12 +81,12 @@ func DoRequest[T any](ctx context.Context, c *Client, method string, path string
 	log.Printf("%s %s %d", method, url, res.StatusCode)
 
 	if res.StatusCode == http.StatusUnauthorized {
-		log.Fatalf("Unauthorized")
+		return nil, errors.New("Unauthorized")
 	}
 
 	raw, err := io.ReadAll(res.Body)
 	if err != nil {
-		log.Fatalf("failed to read response body: %v", err)
+		return nil, errors.New("failed to read response body: " + err.Error())
 	}
 
 	log.Printf("RAW => %s", string(raw))
