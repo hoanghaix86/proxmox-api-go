@@ -2,7 +2,7 @@ package client
 
 import (
 	"crypto/tls"
-	"log"
+	"errors"
 	"net/http"
 	"os"
 	"time"
@@ -52,31 +52,32 @@ func NewClient(apiUrl *string, config *Config) *Client {
 	}
 }
 
-func (c *Client) AuthWithToken(tokenId, tokenSecret *string) {
+func (c *Client) AuthWithToken(tokenId, tokenSecret string) error {
 
-	tkId := os.Getenv("PROXMOX_TOKEN_ID")
-	tkSecret := os.Getenv("PROXMOX_TOKEN_SECRET")
-
-	if tokenId != nil {
-		tkId = *tokenId
+	id := tokenId
+	if id == "" {
+		id = os.Getenv("PROXMOX_TOKEN_ID")
 	}
 
-	if tokenSecret != nil {
-		tkId = *tokenSecret
+	secret := tokenSecret
+	if secret == "" {
+		secret = os.Getenv("PROXMOX_TOKEN_SECRET")
 	}
 
-	if tkId == "" {
-		log.Fatal("Token Id invalid")
+	if id == "" {
+		return errors.New("token id invalid")
 	}
 
-	if tkSecret == "" {
-		log.Fatal("Token Secret invalid")
+	if secret == "" {
+		return errors.New("token secret invalid")
 	}
 
 	c.session = &Session{
-		TokenId:     tkId,
-		TokenSecret: tkSecret,
+		TokenId:     id,
+		TokenSecret: secret,
 	}
+
+	return nil
 }
 
 func buildHttpClient(config *Config) *http.Client {
